@@ -1,21 +1,18 @@
 package com.rt;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Function;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
-public class StringCompositionTest {
+public abstract class  StringCompositionTestBase {
 
-    @Before
-    public void setUp() throws Exception {
-    }
+    Function<List<String>, List<List<String>>> sc;
 
 
     @Test
@@ -25,7 +22,8 @@ public class StringCompositionTest {
                 "rock",
                 "star");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(1));
 
@@ -41,7 +39,7 @@ public class StringCompositionTest {
                 "rock",
                 "sta");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, empty());
     }
@@ -54,7 +52,8 @@ public class StringCompositionTest {
                 "sta",
                 "r");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(1));
         assertThat(results, containsInAnyOrder(
@@ -70,7 +69,8 @@ public class StringCompositionTest {
                 "high",
                 "way");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(1));
 
@@ -90,7 +90,8 @@ public class StringCompositionTest {
                 "high",
                 "way");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(2));
 
@@ -113,7 +114,8 @@ public class StringCompositionTest {
                 "way",
                 "tar");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(2));
 
@@ -132,7 +134,8 @@ public class StringCompositionTest {
                 "highway",
                 "way");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, hasSize(3));
 
@@ -147,23 +150,26 @@ public class StringCompositionTest {
     public void testFindCompositesEmptyList() {
         List<String> wordList = Collections.emptyList();
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        assert sc != null;
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, empty());
     }
 
     @Test
     public void testFindCompositesNullList() {
-        List<List<String>> results = StringComposition.findComposites(Optional.empty());
+        assert sc != null;
+        List<List<String>> results = sc.apply(null);
 
         assertThat(results, empty());
     }
 
     @Test
     public void testFindCompositesSingleInput() {
+        assert sc != null;
         List<String> wordList = Collections.singletonList("single");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, empty());
     }
@@ -171,9 +177,10 @@ public class StringCompositionTest {
 
     @Test
     public void testFindCompositesDuplicateInput() {
+        assert sc != null;
         List<String> wordList = Arrays.asList("duplicate", "duplicate", "duplicate");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, empty());
     }
@@ -181,9 +188,10 @@ public class StringCompositionTest {
 
     @Test
     public void testFindCompositeEmptyStrings() {
+        assert sc != null;
         List<String> wordList = Arrays.asList("", "", "");
 
-        List<List<String>> results = StringComposition.findComposites(Optional.of(wordList));
+        List<List<String>> results = sc.apply(wordList);
 
         assertThat(results, empty());
     }

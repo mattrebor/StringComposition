@@ -2,7 +2,7 @@ package com.rt;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -28,9 +28,9 @@ public class Main {
         );
 
 
-        List<List<String>> composites = StringComposition.findComposites(Optional.of(wordList));
+        List<List<String>> composites = StringComposition.findComposites(wordList);
 
-        List<String> compositesString = composites.stream()
+        List<String> compositesString = Objects.requireNonNull(composites).stream()
                 .map(Main::convertListToString)
                 .collect(Collectors.toList());
 
@@ -38,7 +38,7 @@ public class Main {
                 .forEach(System.out::println);
     }
 
-    static String convertListToString(List<String> list) {
+    private static String convertListToString(List<String> list) {
 
         return "[" +
                 String.join(", ", list) +
