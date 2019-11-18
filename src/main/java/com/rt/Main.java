@@ -28,7 +28,7 @@ public class Main {
         );
 
 
-        List<List<String>> composites = StringComposition.findComposites(wordList);
+        List<List<String>> composites = StringCompositionStream.findComposites(wordList);
 
         List<String> compositesString = Objects.requireNonNull(composites).stream()
                 .map(Main::convertListToString)
